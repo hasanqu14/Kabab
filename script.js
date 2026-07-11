@@ -1,24 +1,25 @@
-// ================================
-// Mahafil-e-Kabab (Mastan Chacha)
-// script.js
-// ================================
+// ======================================
+// Mahafil-e-Kabab Website Script
+// ======================================
 
-// Header Background on Scroll
+// Sticky Header
 const header = document.querySelector("header");
 
 window.addEventListener("scroll", () => {
-    if (window.scrollY > 80) {
-        header.style.background = "rgba(0,0,0,0.96)";
-        header.style.boxShadow = "0 5px 20px rgba(0,0,0,.5)";
+
+    if (window.scrollY > 50) {
+        header.style.background = "#000";
+        header.style.boxShadow = "0 5px 20px rgba(0,0,0,0.5)";
     } else {
-        header.style.background = "rgba(0,0,0,.85)";
+        header.style.background = "rgba(0,0,0,0.85)";
         header.style.boxShadow = "none";
     }
+
 });
 
-// ================================
-// Active Navigation Link
-// ================================
+// ==============================
+// Active Navigation
+// ==============================
 
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll("nav a");
@@ -30,9 +31,11 @@ window.addEventListener("scroll", () => {
     sections.forEach(section => {
 
         const sectionTop = section.offsetTop - 120;
-        const sectionHeight = section.clientHeight;
+        const sectionHeight = section.offsetHeight;
 
-        if (pageYOffset >= sectionTop) {
+        if (window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight) {
+
             current = section.getAttribute("id");
         }
 
@@ -42,114 +45,240 @@ window.addEventListener("scroll", () => {
 
         link.classList.remove("active");
 
-        if (link.getAttribute("href") == "#" + current) {
+        if (link.getAttribute("href") === "#" + current) {
+
             link.classList.add("active");
+
         }
 
     });
 
 });
 
-// ================================
+// ==============================
 // Reveal Animation
-// ================================
+// ==============================
 
-const reveals = document.querySelectorAll(
-    ".card, .about-image, .about-text, .gallery img"
+const revealElements = document.querySelectorAll(
+".about, .card, .video-section, .payment-card, .location, footer"
 );
 
-function revealElements() {
+const reveal = () => {
 
-    reveals.forEach(item => {
+    const windowHeight = window.innerHeight;
 
-        const windowHeight = window.innerHeight;
-        const revealTop = item.getBoundingClientRect().top;
-        const revealPoint = 120;
+    revealElements.forEach(el => {
 
-        if (revealTop < windowHeight - revealPoint) {
+        const top = el.getBoundingClientRect().top;
 
-            item.style.opacity = "1";
-            item.style.transform = "translateY(0px)";
+        if (top < windowHeight - 120) {
+
+            el.style.opacity = "1";
+            el.style.transform = "translateY(0px)";
 
         }
 
     });
 
-}
+};
 
-reveals.forEach(item => {
+revealElements.forEach(el => {
 
-    item.style.opacity = "0";
-    item.style.transform = "translateY(50px)";
-    item.style.transition = "0.8s ease";
-
-});
-
-window.addEventListener("scroll", revealElements);
-window.addEventListener("load", revealElements);
-
-// ================================
-// Image Hover Effect
-// ================================
-
-const images = document.querySelectorAll(".gallery img");
-
-images.forEach(img => {
-
-    img.addEventListener("mouseenter", () => {
-
-        img.style.transform = "scale(1.08)";
-        img.style.transition = ".4s";
-
-    });
-
-    img.addEventListener("mouseleave", () => {
-
-        img.style.transform = "scale(1)";
-
-    });
+    el.style.opacity = "0";
+    el.style.transform = "translateY(60px)";
+    el.style.transition = "all .8s ease";
 
 });
 
-// ================================
-// Button Animation
-// ================================
+window.addEventListener("scroll", reveal);
+window.addEventListener("load", reveal);
+
+// ==============================
+// Smooth Scroll
+// ==============================
+
+document.querySelectorAll('nav a').forEach(anchor => {
+
+    anchor.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        const target = document.querySelector(this.getAttribute("href"));
+
+        target.scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+});
+
+// ==============================
+// Button Hover
+// ==============================
 
 const buttons = document.querySelectorAll(".btn");
 
-buttons.forEach(btn => {
+buttons.forEach(btn=>{
 
-    btn.addEventListener("mouseenter", () => {
+    btn.addEventListener("mouseenter",()=>{
 
-        btn.style.transform = "scale(1.08)";
+        btn.style.transform="scale(1.05)";
 
     });
 
-    btn.addEventListener("mouseleave", () => {
+    btn.addEventListener("mouseleave",()=>{
 
-        btn.style.transform = "scale(1)";
+        btn.style.transform="scale(1)";
 
     });
 
 });
 
-// ================================
-// Greeting Message
-// ================================
+// ==============================
+// Card Hover Effect
+// ==============================
 
-window.addEventListener("load", () => {
+const cards = document.querySelectorAll(".card");
 
-    console.log("🍔 Welcome to Mahafil-e-Kabab (Mastan Chacha)");
+cards.forEach(card=>{
+
+    card.addEventListener("mouseenter",()=>{
+
+        card.style.transform="translateY(-12px)";
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.transform="translateY(0px)";
+
+    });
 
 });
 
-// ================================
-// Current Year in Footer
-// ================================
+// ==============================
+// Payment Card Effect
+// ==============================
 
-const copy = document.querySelector(".copy");
+const paymentCards=document.querySelectorAll(".payment-card");
 
-if (copy) {
-    copy.innerHTML =
-        `© ${new Date().getFullYear()} Mahafil-e-Kabab (Mastan Chacha). All Rights Reserved.`;
+paymentCards.forEach(card=>{
+
+    card.addEventListener("mouseenter",()=>{
+
+        card.style.boxShadow="0 0 25px gold";
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.boxShadow="none";
+
+    });
+
+});
+
+// ==============================
+// Floating Hero Image
+// ==============================
+
+const heroImage=document.querySelector(".hero-image img");
+
+if(heroImage){
+
+setInterval(()=>{
+
+heroImage.animate([
+
+{transform:"translateY(0px)"},
+
+{transform:"translateY(-10px)"},
+
+{transform:"translateY(0px)"}
+
+],{
+
+duration:2500
+
+});
+
+},2500);
+
 }
+
+// ==============================
+// Footer Copyright Year
+// ==============================
+
+const copy=document.querySelector(".copy");
+
+if(copy){
+
+copy.innerHTML="© "+new Date().getFullYear()+" Mahafil-e-Kabab (Mastan Chacha). All Rights Reserved.";
+
+}
+
+// ==============================
+// Welcome Message
+// ==============================
+
+window.onload=()=>{
+
+console.log("🍔 Welcome to Mahafil-e-Kabab");
+
+};
+
+// ==============================
+// Scroll To Top Button
+// ==============================
+
+const topBtn=document.createElement("button");
+
+topBtn.innerHTML='<i class="fa-solid fa-arrow-up"></i>';
+
+topBtn.id="topBtn";
+
+document.body.appendChild(topBtn);
+
+topBtn.style.position="fixed";
+topBtn.style.bottom="25px";
+topBtn.style.right="25px";
+topBtn.style.width="50px";
+topBtn.style.height="50px";
+topBtn.style.border="none";
+topBtn.style.borderRadius="50%";
+topBtn.style.background="#FFD700";
+topBtn.style.color="#111";
+topBtn.style.fontSize="20px";
+topBtn.style.cursor="pointer";
+topBtn.style.display="none";
+topBtn.style.zIndex="9999";
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>300){
+
+topBtn.style.display="block";
+
+}else{
+
+topBtn.style.display="none";
+
+}
+
+});
+
+topBtn.addEventListener("click",()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
