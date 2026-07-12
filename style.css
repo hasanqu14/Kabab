@@ -933,12 +933,10 @@ transform:translateY(0);
 
 
 
-.payment-card p{
-
-    color:#ddd;
-
-    font-size:16px;
-
+.payment-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 
@@ -948,10 +946,11 @@ transform:translateY(0);
 /* QR CODE */
 
 
+/* QR CODE */
+
 .qr-code{
 
     width:180px;
-
     height:180px;
 
     object-fit:contain;
@@ -962,9 +961,11 @@ transform:translateY(0);
 
     border-radius:12px;
 
-    margin-top:15px;
+    margin:15px auto 0;   /* Center QR */
 
-}
+    display:block;        /* Required for auto margin */
+
+} 
 
 
 
